@@ -1,0 +1,275 @@
+@echo off
+color 0a
+title Computer / Network Analysis Tool v1.0
+cls
+
+:license
+echo ===================================[LICENSE]===================================
+echo                                      ....
+echo          This software is Copyright (c) 2015 Christopher Engelhardt     
+echo                                      ....
+echo    THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+echo    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+echo    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+echo    AUTHOR(S) OR COPYRIGHT HOLDER(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+echo    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+echo    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+echo    IN THE SOFTWARE.
+echo                                      ....
+echo ===============================================================================
+       
+SET /P M=Accept License? Type Y or N then press ENTER:
+IF %M%==y GOTO mainmenu
+IF %M%==Y GOTO mainmenu
+IF %M%==n exit
+IF %M%==N exit
+
+:mainmenu
+cls
+echo ==================================[MAIN MENU]==================================
+echo                                      ....
+echo    Note: Additional information availble after option is selected.
+echo                                      ....
+echo ===============================================================================
+echo    Options:
+echo       1 - Generate Results Folder *Required*
+echo       2 - Ping Test
+echo       3 - Trace Route
+echo       4 - Network Configuration
+echo       5 - System Information
+echo       6 - Dxdiag
+echo       7 - License
+echo     SOS - RUN IT ALL! (If you don't know what you need)
+echo       E - Exit
+echo ===============================================================================
+SET /P M=Enter Choice and press ENTER:
+IF %M%==1 GOTO genr
+IF %M%==2 GOTO pingr
+IF %M%==3 GOTO tracer
+IF %M%==4 GOTO netconfigr
+IF %M%==5 GOTO sysinfr
+IF %M%==6 GOTO dxdiagr
+IF %M%==7 GOTO license
+IF %M%==SOS GOTO runall
+IF %M%==E exit
+IF %M%==e exit
+
+:genr
+cls
+echo ==================================[FILE GEN]===================================
+echo                                      ....
+echo                This will generate a folder on your desktop where
+echo                      all the results files are output to.
+echo                                      ....
+echo ===============================================================================
+echo    Options:
+echo       Y - Generate the folder on my desktop (required for file output)
+echo       N - Go back to the main menu
+echo ===============================================================================
+SET /P M= (Y/N):
+IF %M%==Y md "%USERPROFILE%\Desktop\CompNetResults"
+          echo DONE!
+          goto mainmenu
+IF %M%==N GOTO mainmenu
+
+:pingr
+cls
+echo ==================================[PING TEST]==================================
+echo                                      ....
+echo        This test will ping HTTP://WWW.GOOGLE.COM with 10 packets of data,      
+echo                this shouldn't take more than 15-20 seconds.
+echo                                      ....
+echo ===============================================================================
+echo    Options:
+echo       Y - Continue, results will be output to results folder
+echo       N - Go back to main menu
+echo ===============================================================================
+SET /P M= (Y/N):
+IF %M%==Y GOTO pingra
+IF %M%==N GOTO mainmenu
+
+
+:pingra
+cls
+cd %USERPROFILE%\Desktop\CompNetResults
+echo ==================================[PING TEST]==================================
+echo                                      ....
+echo        This test will ping HTTP://WWW.GOOGLE.COM with 10 packets of data,      
+echo                this shouldn't take more than 15-20 seconds.
+echo                                      ....
+echo ===============================================================================
+echo Started by %username% on %computername% at %date% %time%
+
+ping -n 10 google.com
+
+echo ==================================[PING TEST]================================== >> "PingResults.txt"
+echo                                      .... >> "PingResults.txt"
+echo        This test will ping HTTP://WWW.GOOGLE.COM with 10 packets of data,       >> "PingResults.txt"
+echo             this should not take more than 15-20 seconds. >> "PingResults.txt"
+echo                                      .... >> "PingResults.txt"
+echo =============================================================================== >> "PingResults.txt"
+echo Started by %username% on %computername% at %date% %time% >> "PingResults.txt
+(ping -n 10 google.com) >> "PingResults.txt"
+
+GOTO mainmenu
+
+:tracer
+cls
+echo =================================[TRACE ROUTE]=================================
+echo                                      ....
+echo           This test will trace the route of your internet traffic to 
+echo         HTTP://WWW.GOOGLE.COM, this will help determine network issues.
+echo                This should not take longer than 20-30 seconds.
+echo                                      ....
+echo ===============================================================================
+echo    Options:
+echo       Y - Continue, results will be output to results folder
+echo       N - Go back to main menu
+echo ===============================================================================
+SET /P M= (Y/N):
+IF %M%==Y GOTO tracera
+IF %M%==N GOTO mainmenu
+
+:tracera
+cd %USERPROFILE%\Desktop\CompNetResults
+cls
+echo =================================[TRACE ROUTE]=================================
+echo                                      ....
+echo           This test will trace the route of your internet traffic to 
+echo         HTTP://WWW.GOOGLE.COM, this will help determine network issues.
+echo                This should not take longer than 20-30 seconds.
+echo                                      ....
+echo ===============================================================================
+echo Started by %username% on %computername% at %date% %time%
+tracert google.com
+
+echo =================================[TRACE ROUTE]================================= >> "TraceResults.txt"
+echo                                      .... >> "TraceResults.txt"
+echo           This test will trace the route of your internet traffic to >> "TraceResults.txt" 
+echo         HTTP://WWW.GOOGLE.COM, this will help determine network issues. >> "TraceResults.txt"
+echo                This should not take longer than 20-30 seconds. >> "TraceResults.txt"
+echo                                      .... >> "TraceResults.txt"
+echo =============================================================================== >> "TraceResults.txt"
+echo Started by %username% on %computername% at %date% %time% >> "TraceResults.txt"
+(tracert google.com) >> "TraceResults.txt"
+GOTO mainmenu
+
+:netconfigr
+cls
+echo ==================================[NETCONFIG]==================================
+echo                                      ....
+echo                This will display your network configuration.
+echo                          Should take 5-10 seconds.
+echo                                      ....
+echo ===============================================================================
+echo    Options:
+echo       Y - Continue, results will be output to results folder
+echo       N - Go back to main menu
+echo ===============================================================================
+SET /P M= (Y/N):
+IF %M%==Y GOTO netconfigra
+IF %M%==N GOTO mainmenu
+
+:netconfigra
+cd %USERPROFILE%\Desktop\CompNetResults
+cls
+echo ==================================[NETCONFIG]==================================
+echo                                      ....
+echo                This will display your network configuration.
+echo                          Should take 5-10 seconds.
+echo                                      ....
+echo ===============================================================================
+echo Started by %username% on %computername% at %date% %time%
+ipconfig /all
+
+echo ==================================[NETCONFIG]================================== >> "IPConfigResults.txt"
+echo                                      .... >> "IPConfigResults.txt"
+echo                This will display your network configuration. >> "IPConfigResults.txt"
+echo                          Should take 5-10 seconds. >> "IPConfigResults.txt"
+echo                                      .... >> "IPConfigResults.txt"
+echo =============================================================================== >> "IPConfigResults.txt"
+echo Started by %username% on %computername% at %date% %time% >> "IPConfigResults.txt"
+(ipconfig /all) >> "IPConfigResults.txt"
+GOTO mainmenu
+
+:sysinfr
+cls
+echo =================================[SYSTEM INFO]=================================
+echo                                      ....
+echo                Displays detailed information about your system.
+echo     This may give out information that could be used to identify yourself
+echo          or computer. Please use caution when giving out this report.
+echo                                      ....
+echo ===============================================================================
+echo    Options:
+echo       Y - Continue, results will be output to results folder
+echo       N - Go back to main menu
+echo ===============================================================================
+SET /P M= (Y/N):
+IF %M%==Y GOTO sysinfra
+IF %M%==N GOTO mainmenu
+
+:sysinfra
+cls
+echo =================================[SYSTEM INFO]=================================
+echo                                      ....
+echo                Displays detailed information about your system.
+echo     This may give out information that could be used to identify yourself
+echo          or computer. Please use caution when giving out this report.
+echo                                      ....
+echo ===============================================================================
+echo Started by %username% on %computername% at %date% %time%
+systeminfo
+
+cd %USERPROFILE%\Desktop\CompNetResults
+cls
+echo =================================[SYSTEM INFO]================================= >> "SystemInfoResults.txt"
+echo                                      .... >> "SystemInfoResults.txt"
+echo                Displays detailed information about your system. >> "SystemInfoResults.txt"
+echo     This may give out information that could be used to identify yourself >> "SystemInfoResults.txt"
+echo          or computer. Please use caution when giving out this report. >> "SystemInfoResults.txt"
+echo                                      .... >> "SystemInfoResults.txt"
+echo =============================================================================== >> "SystemInfoResults.txt"
+echo Started by %username% on %computername% at %date% %time% >> "SystemInfoResults.txt"
+(systeminfo) >> "SystemInfoResults.txt"
+GOTO mainmenu
+
+:dxdiagr
+cls
+echo ===================================[DX DIAG]===================================
+echo                                      ....
+echo              This helps diagnose sound and video hardware issues.
+echo                                      ....
+echo ===============================================================================
+echo    Options:
+echo       Y - Continue, results will be output to results folder
+echo       N - Go back to main menu
+echo ===============================================================================
+SET /P M= (Y/N):
+IF %M%==Y GOTO dxdiagra
+IF %M%==N GOTO mainmenu
+
+:dxdiagra
+cd %USERPROFILE%\Desktop\CompNetResults
+cls
+echo ===================================[DX DIAG]===================================
+echo                                      ....
+echo              This helps diagnose sound and video hardware issues.
+echo                                      ....
+echo ===============================================================================
+echo Started by %username% on %computername% at %date% %time%
+echo Started by %username% on %computername% at %date% %time% >>"DxDiagResults.txt"
+dxdiag /dontskip /whql:on /t DxDiagResults.txt
+GOTO mainmenu
+
+:runall
+cls
+echo ===================================[ S O S ]===================================
+echo                                      ....
+echo           This feature is not implemented yet. Instead go through and
+echo                   manually run each test from the main menu.
+echo                                      ....
+echo ===============================================================================
+echo You will be returned to the main menu.
+pause
+GOTO mainmenu
