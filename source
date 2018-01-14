@@ -1,12 +1,12 @@
 @echo off
 color 0a
-title Computer / Network Analysis Tool v1.0
+title Computer / Network Analysis Tool v2.0
 cls
 
 :license
 echo ===================================[LICENSE]===================================
 echo                                      ....
-echo          This software is Copyright (c) 2015 Christopher Engelhardt     
+echo          This software is Copyright (c) 2018 Christopher Engelhardt     
 echo                                      ....
 echo    THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
 echo    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -266,10 +266,49 @@ GOTO mainmenu
 cls
 echo ===================================[ S O S ]===================================
 echo                                      ....
-echo           This feature is not implemented yet. Instead go through and
-echo                   manually run each test from the main menu.
+echo           This feature will run all tests for you and generate all
+echo        required folders on your desktop under the folder CompNetResults.
+echo                                      ....
+echo             This process will take several minutes, you may see
+echo            a popup when the process reaches the DXDIAG analysis.
 echo                                      ....
 echo ===============================================================================
-echo You will be returned to the main menu.
+SET /P M= Press Y to start the test, press N to go back to the main menu: 
+IF %M%==Y GOTO runalla
+IF %M%==N GOTO mainmenu
+
+:runalla
+cls
+echo ===================================[ S O S ]===================================
+echo                                      ....
+echo           This feature will run all tests for you and generate all
+echo        required folders on your desktop under the folder CompNetResults.
+echo                                      ....
+echo             This process will take several minutes, you may see
+echo            a popup when the process reaches the DXDIAG analysis.
+echo                                      ....
+echo ===============================================================================
+echo GENERATING FOLDER...
+md "%USERPROFILE%\Desktop\CompNetResults"
+cd %USERPROFILE%\Desktop\CompNetResults
+echo ===================================[ S O S ]=================================== >> "sos.txt"
+echo Started by %username% on %computername% at %date% %time% >> "sos.txt"
+echo STARTING PING TEST...
+echo ==================================[PING TEST]================================== >> "sos.txt"
+(ping -n 10 google.com) >> "sos.txt"
+echo STARTING TRACE ROUTE TEST...
+echo =================================[TRACE ROUTE]================================= >> "sos.txt"
+(tracert google.com) >> "sos.txt"
+echo COLLECTING NETWORK CONFIGURATION...
+echo ==================================[NETCONFIG]================================== >> "sos.txt"
+(ipconfig /all) >> "sos.txt"
+echo COLLECTING SYSTEM INFO...
+echo =================================[SYSTEM INFO]================================= >> "sos.txt"
+(systeminfo) >> "sos.txt"
+echo RUNNING DIRECT X DIAG...
+echo ===================================[DX DIAG]=================================== >> "sos.txt"
+echo See DxDiagResults.txt for results. >> "sos.txt"
+dxdiag /dontskip /whql:on /t DxDiagResults.txt
+echo DONE!
 pause
 GOTO mainmenu
